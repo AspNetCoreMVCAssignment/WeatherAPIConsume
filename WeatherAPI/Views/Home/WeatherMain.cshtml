@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "WeatherMain";
+}
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+             url:"https://api.openweathermap.org/data/2.5/weather?q=Ahmedabad&units=metric&cnt=1&APPID=84595ebdddb8a73cf38c656ac79939ae",
+             type:"GET",
+             dataType:"json",
+             success:function(data){
+                 console.log(data);
+                 $("#tbl tbody").append("<tr>"+
+                    "<td>"+data.name+"</td>"
+                    +"<td>"+data.main.temp_min+"</td>"
+                    +"<td>"+data.main.temp_max+"</td>"
+                    +"<td>"+data.wind.speed+"</td>"
+                    +"<td>"+data.weather[0].main+"</td>"
+                 +"</tr>");
+             }
+        });
+    });
+
+</script>
+<h1>Search City and Get Weather Forecast</h1>
+
+
+<div>
+    <h2>Weather Forecast</h2>
+    <table class="table" id="tbl">
+        <thead>
+            <tr>
+                <th>
+                    city
+                </th>
+                <th>
+                    temp_min
+                </th>
+                <th>
+                    temp_max
+                </th>
+                <th>
+                    wind_speed
+                </th>
+                 <th>
+                    weather
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,109 @@
+﻿@{    
+    ViewBag.Title = "Weather";    
+}    
+
+<h1 style="background:#C5D8A4; padding:20px">Search City and Get Weather Forecast</h1>    
+    
+<div style="background:#F4FCD9; padding:20px">    
+    <strong>City Name  : </strong><input id="txtCity" type="text"/>    
+    <br />    
+    <br />    
+    <button id="btnSubmit" style="background:#534340;color:white" class="btn">Get Weather Forecast</button>    
+</div>    
+    
+    
+<div style="background:#F4FCD9; padding:20px; display:none" class="weatherinfo">    
+    <h2>Weather Forecast</h2>    
+    <table id="tbl">
+        <tr>    
+            <td><strong>Weather Symbol Icon</strong> <img id="imgWeatherIconUrl" width="150" height="150" src="https://cdn-icons.flaticon.com/png/512/2862/premium/2862807.png?token=exp=1646821285~hmac=f7c78d722d9eb6dc971fd35cfb50f491" title="Weather Icon" /></td>    
+        </tr>    
+        <tr>    
+            <td>    
+                <strong>City: </strong>    
+                <span id="lblCity"></span>  ,    
+                <span id="lblCountry"></span>    
+            </td>    
+            </tr>    
+        <tr>    
+            <td>    
+                <strong>Latitude: </strong>    
+                <label id="lblLat"></label><br />    
+                <strong>Longitude: </strong>    
+                <label id="lblLon"></label>    
+                    
+            </td>    
+        </tr>    
+        <tr>    
+            <td>    
+                <strong>Description:</strong>    
+                <label id="lblDescription"></label><br />    
+                <strong>Humidity:</strong>    
+                <label id="lblHumidity"></label>    
+            </td>    
+            </tr>    
+        <tr>    
+            <td>    
+                <strong>Temperature (Feels Like): </strong><label id="lblTempFeelsLike"></label><br />    
+                <strong>Temperature: </strong> <label id="lblTemp"></label><br />    
+                <strong>Temperature (Min): </strong><label id="lblTempMin"></label><br />    
+                <strong>Temperature (Max): </strong><label id="lblTempMax"></label><br />    
+            </td>    
+        </tr>    
+           
+    
+    </table>    
+</div>    
+    
+ <script>    
+        
+    $("#btnSubmit").click(function () {    
+       
+        var cityname = $("#txtCity").val();    
+        if (cityname.length > 0)    
+        {  
+        $(".weatherinfo").css("display","block");    
+        $.ajax({    
+            url: "https://localhost:44309/Home/WeatherDetail?City="+cityname,    
+            type: "POST",    
+            success: function (rsltval) {    
+                 
+                var data =JSON.parse(rsltval);    
+                 
+                console.log(data); 
+                   //console.log(data.City);
+                   //console.log(data.Country);
+                   //   console.log(data["country"]);
+                       //console.log(rsltval["city"]);
+                   //     console.log(rsltval[city]);
+                   //           console.log(rsltval[3]);
+                   //            console.log(data[0]);
+                            
+                $("#lblCity").html(data["city"]);    
+                $("#lblCountry").text(data["country"]);    
+                $("#lblLat").text(data["lat"]);    
+                $("#lblLon").text(data["lon"]);    
+                $("#lblDescription").text(data["description"]);    
+                $("#lblHumidity").text(data["humidity"]);    
+                $("#lblTempFeelsLike").text(data["tempFeelsLike"]);    
+                $("#lblTemp").text(data["temp"]);    
+                $("#lblTempMax").text(data["tempMax"]);    
+                $("#lblTempMin").text(data["tempMin"]);    
+                $("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data["weatherIcon"] + ".png");    
+                 //$("#tbl tbody").append("<tr>"+
+                 //  data
+                 //+"</tr>");
+                //data - response from server    
+            },    
+            error: function () {    
+    
+            }    
+        });    
+        }    
+        else    
+        {    
+            alert("City Not Found");    
+        }    
+    });    
+    
+</script>
